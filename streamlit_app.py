@@ -45,5 +45,5 @@ offer some insight based on performance and their category,
 """)
     st.text(f"""Category : {category}\nTarget : {target}\nLatest performance : {latest_performance}""")
     st.write()
-    st.text(response)
+    st.markdown(response)
 
