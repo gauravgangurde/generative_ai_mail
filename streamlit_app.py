@@ -1,66 +1,49 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-from pandasai import PandasAI
-from pandasai.llm.openai import OpenAI
 from PIL import Image
-import matplotlib.pyplot as plt
 
-#st.set_option('deprecation.showPyplotGlobalUse', False)
 image = Image.open('exl.png')
 
 
-llm = OpenAI(api_token=st.secrets["chat_gpt_key"])
+openai.api_key = st.secrets["chat_gpt_key"]
 
-pandas_ai = PandasAI(llm, conversational=False)
+df = pd.read_csv('performance.csv')
 
-df1 = pd.read_csv('employees.csv')
-df2 = pd.read_csv('sales_data.csv')
-df3 = pd.read_csv('claims_data.csv')
+def openai_response(query):
+   response = openai.ChatCompletion.create(
+   model="gpt-3.5-turbo",
 
-ls = ['chart','plot','graph','trend']
-#to check if prompt have chart, graph words
-def contains_substring(string, substrings):
-    for substring in substrings:
-        if substring in string:
-            return True
-    return False
-    
+   messages = [
+       {"role":"system", "content":"You are helpful assistant."},
+       {"role":"user","content": query}
+   ]
+   )
+   return response.choices[0]['message']['content']   
     
 with st.sidebar:
-    st.image(image, width = 150)
-    st.header('Conversational BI')
-    st.write('Ask any question on your BI report')
-    st.write(' ')
-    st.write(' ')
-    role = st.selectbox('Please select your role',('HR Manager', 'Sales Manager', 'Claims Manager'))
+    st.image(image)
+    st.header('Generative AI')
 
 
-#based on role selected show BI report  
-if   role == 'HR Manager':
-    df = df1
-elif role == 'Sales Manager':
-    df = df2
-elif role == 'Claims Manager':
-    df = df3
-
-st.header("BI Report (Structure): " + role.replace('Manager',''))
-st.dataframe(df.head())
+st.header("Generative AI ")
 
 with st.form("my_form"):
-
-   query = st.text_input(label ="Enter a question" , placeholder = 'Enter your query')
+   name = st.selectbox('Please select name',df["name"])
+   intent_of_mail = st.text_input(label ="Intent of mail" , placeholder = 'Intent')
+   category = df[df.name == name]['performance'].to_string(index=False)
+   target = df[df.name == name]['target'].to_string(index=False)
+   latest_performance = df[df.name == name]['latest_month_performance'].to_string(index=False)
+   
    # Every form must have a submit button.
    submitted = st.form_submit_button("Submit")
    if submitted:
-       if contains_substring(query.lower(),ls): 
-        fig, x = plt.subplots()
-        response = pandas_ai(df, prompt=query)
-        st.pyplot(fig)
-        st.text(response)
-       else:
-        response = pandas_ai(df, prompt=query)
-        st.text(response)
-
-
+    response = openai_response(f"""Write a {intent_of_mail} mail to a salesperson {name} as their employer based on following information starts and ends with triplle question marks,
+Analyse the data to determine whether a salesperson's performance is above or below target and how it impacts the performance category,
+offer some insight based on performance and their category,
+???{name} is {category} with their target, their latest target was {target} and latest performance was {latest_performance}???
+""")
+    st.text(f"""Category : {category}\nTarget : {target}\nLatest performance : {latest_performance}""")
+    st.write()
+    st.text(response)
 
