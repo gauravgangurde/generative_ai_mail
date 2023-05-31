@@ -22,11 +22,11 @@ def openai_response(query):
    return response.choices[0]['message']['content']   
     
 with st.sidebar:
-    st.image(image)
+    st.image(image, width = 150)
     st.header('Generative AI')
 
 
-st.header("Generative AI ")
+st.header("Personalized communication ")
 
 with st.form("my_form"):
    name = st.selectbox('Please select name',df["name"])
