@@ -39,10 +39,10 @@ with st.form("my_form"):
    # Every form must have a submit button.
    submitted = st.form_submit_button("Submit")
    if submitted:
-    response = openai_response(f"""Write a {intent_of_mail} mail to a salesperson {name} as their employer based on following information starts and ends with triplle question marks,
+    response = openai_response(f"""Write a {intent_of_mail} mail to a salesperson {name} as their employer based on following information starts and ends with triplle dashes marks,
 Analyse the data to determine whether a salesperson's performance is above or below target and how it impacts the performance category,
 offer some insight based on performance and their category,
-??? {name} is {category} with their target, their latest target was {target} and latest performance was {latest_performance} ???
+--- {name} is {category} with their target, their latest target was {target} and latest performance was {latest_performance} ---
 """)
     st.text(f"""Category : {category}\nTarget : {target}\nLatest performance : {latest_performance}""")
     st.write()
