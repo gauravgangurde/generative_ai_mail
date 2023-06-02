@@ -34,8 +34,8 @@ def row_converter(row, listy):
 	return pictionary
 	
 with st.sidebar:
-st.image(image, width = 150)
-st.header('Generative AI')
+	st.image(image, width = 150)
+	st.header('Generative AI')
 
 
 st.header("Personalized communication ")
