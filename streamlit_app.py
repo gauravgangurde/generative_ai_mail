@@ -42,6 +42,7 @@ st.header("Personalized communication ")
 
 with st.form("my_form"):
 	name = st.selectbox('Please select name',df['performance'])
+	df = df[df['performance']==name]
 	intent_of_mail = st.text_input(label ="Intent of mail" , placeholder = 'Intent')
 	category = df[df.name == name]['performance'].to_string(index=False)
 	target = df[df.name == name]['target'].to_string(index=False)
@@ -50,7 +51,8 @@ with st.form("my_form"):
 	# Every form must have a submit button.
 	submitted = st.form_submit_button("Submit")
 	if submitted:
+		data = []
 		listy = df.columns
 		for row in df.itertuples():
-			rowDict = row_converter(row, listy)
-		st.markdown(rowDict)
+			data.append(row_converter(row, listy))
+		st.markdown(data)
