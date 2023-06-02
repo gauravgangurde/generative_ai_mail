@@ -18,7 +18,7 @@ def openai_response(query):
 		{"role":"system", "content":"You are helpful assistant."},
 		{"role":"user","content": query}
 	],
-	temperature = 0,
+	temperature = 0.6,
 	)
 	return response.choices[0]['message']['content']  
 	
