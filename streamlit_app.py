@@ -57,11 +57,12 @@ with st.form("my_form"):
 		for row in df.itertuples():
 			data.append(row_converter(row, listy))
 		st.markdown(data)
-		response = openai_response(f"""Your task is to write feedback mail to agents in {category} performance category as their manager.
-				Write a seperate mail for each agent with same email body only thing differentiate between them is their sales performance and target.
-				Use data delimited by triple backticks.
-				Provide output in JSON format with following keys:
-				name, performance category,mail
-				data: ```{data} ``` """)
+		response = openai_response(f"""Your task is to write mail to agents in {category} performance category about their performance data delimited by three backticks,
+					generate new mail for each agent with keeping content of body similar,
+					giving feedback, suggesting improvment areas, and it should include 2 sales improvement article or training link references based on performance category
+					Please keep the mail concise and sign it as 'Manager'
+					Provide output in JSON format only with following keys:
+					name, performance category,mail
+					data: ```{data} ``` """)
 		st.write()
 		st.markdown(response)
