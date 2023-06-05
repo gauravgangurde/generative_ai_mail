@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 from PIL import Image
 import openai
+import json
 
 image = Image.open('exl.png')
 
@@ -66,4 +67,4 @@ with st.form("my_form"):
 					data: ```{data} ``` """)
 		st.write()
 		st.markdown(response)
-		pd.read_json(response).to_excel("output.xlsx")
+		pd.read_json(json.load(response)).to_excel("output.xlsx")
