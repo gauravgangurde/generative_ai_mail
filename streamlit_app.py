@@ -66,3 +66,4 @@ with st.form("my_form"):
 					data: ```{data} ``` """)
 		st.write()
 		st.markdown(response)
+		pandas.read_json(response).to_excel("output.xlsx")
