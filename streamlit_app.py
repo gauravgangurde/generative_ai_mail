@@ -68,4 +68,4 @@ with st.form("my_form"):
 		st.write()
 		st.markdown(response)
 		st.write()
-		st.markdown(json.loads(response))['mails']
+		st.markdown(list(json.loads(response))['mails'])
