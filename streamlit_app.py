@@ -75,9 +75,6 @@ with st.form("my_form"):
 					name, performance category,mail
 					data: ```{data} ``` """)
 		res = ast.literal_eval(response.replace('\n','\\n'))
-		for i in res.values():
-			st.markdown(i)
-		st.markdown(res["mails"][0]['mail'])
 		
 		for i in res.keys():
 			df = (pd.DataFrame.from_dict(res[i]))
