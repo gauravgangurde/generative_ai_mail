@@ -53,11 +53,6 @@ st.header("Personalized communication ")
 
 with st.form("my_form"):
 	name = st.selectbox('Please select name',df['performance'])
-	df = df[df['performance']==name]
-	intent_of_mail = st.text_input(label ="Intent of mail" , placeholder = 'Intent')
-	category = df[df.name == name]['performance'].to_string(index=False)
-	target = df[df.name == name]['target'].to_string(index=False)
-	latest_performance = df[df.name == name]['latest_month_performance'].to_string(index=False)
 	
 	# Every form must have a submit button.
 	submitted = st.form_submit_button("Submit")
@@ -74,7 +69,7 @@ with st.form("my_form"):
 					Provide output in JSON format only with following keys:
 					name, performance category,mail
 					data: ```{data} ``` """)
-		res = ast.literal_eval(response.replace('\n','\\n'))
+		res = ast.literal_eval(response)#.replace('\n','\\n'))
 		
 		for i in res.keys():
 			df = (pd.DataFrame.from_dict(res[i]))
