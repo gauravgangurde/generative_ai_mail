@@ -3,7 +3,8 @@ import pandas as pd
 import numpy as np
 from PIL import Image
 import openai
-import json
+import ast
+import csv
 
 image = Image.open('exl.png')
 
@@ -34,7 +35,15 @@ def row_converter(row, listy):
 		count += 1
 	print(pictionary)
 	return pictionary
-	
+
+# to convert dictionary to '|' delimited csv
+def dicts_to_csv(list_of_dicts, filename):
+    keys = list_of_dicts[0].keys()
+
+    with open(filename, 'w', newline='') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=keys, delimiter='|')
+        writer.writeheader()
+        writer.writerows(list_of_dicts)
 with st.sidebar:
 	st.image(image, width = 150)
 	st.header('Generative AI')
@@ -65,7 +74,12 @@ with st.form("my_form"):
 					Provide output in JSON format only with following keys:
 					name, performance category,mail
 					data: ```{data} ``` """)
-		st.write()
-		st.markdown(response)
-		st.write()
-		st.markdown(list(json.loads(response))['mails'])
+		res = ast.literal_eval(response.replace('\n','\\n'))
+		for i in res.values():
+			st.markdown(i)
+		st.markdown(res["mails"][0]['mail'])
+		
+		for i in res.keys():
+			df = (pd.DataFrame.from_dict(res[i]))
+			dicts_to_csv(res[i], 'mails_data.csv')
+			st.dataframe(pd.read_csv('mails_data.csv', sep = '|'))
