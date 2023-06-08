@@ -50,18 +50,42 @@ if st.button("generate"):
 	for i in range(1,2):#len(df)):
 		df2 = df.iloc[[i]]
 		data = df2.to_dict()
-		st.markdown(data)
+		#st.markdown(data)
 		st.dataframe(df2)
-		response = openai_response(f"""Your task is to write at least 250 word mail about their performance data delimited by three backticks,
-					analysing performance, give feedback based on category, suggesting improvement areas, and it should include 2 sales trainng article or link references based on the performance and category
-					Please keep the mail concise and sign it as 'Manager'
-					Provide output in mail only, do not embed input data
-					data: ```{data} ``` """)
-		st.markdown(response)
 		
-		#res = ast.literal_eval(response)#.replace('\n','\\n'))
-		df2['Mail'] = response
-		st.write(df2)
+		#based on performance category choose query
+		if df2.loc[0, 'Category'] == 'Consistent Performer':
+			query = """Your task is to write mail to insurance salesman about their performance data delimited by three backticks,
+				analysing performance using their total sales, target and sales achieved percentages, give feedback based on performance category, congratulate and motivate them along with motivational quotes,
+				offer some insight based on their performance
+				Please keep the mail concise and sign it as 'Manager'
+				"""
+		elif df2.loc[0, 'Category'] == 'Consistent Non-performer':
+			query ="""Your task is to write mail to salesman about their performance data delimited by three backticks,
+				analysing performance using their total sales, target and sales achieved percentages, give feedback based on performance, suggesting improvement areas, and it should include 2 sales trainng article or link references based on the performance and category
+				also include motivational quotes to motivate them
+				Please keep the mail concise and sign it as 'Manager'
+				""" 
+		elif df2.loc[0, 'Category'] == 'Performer to Non-performer':
+			query = """Your task is to write mail to salesman about their performance data delimited by three backticks,
+				analysing performance using their total sales, target and sales achieved percentages, give feedback based on performance as their performance recentley dropped, suggesting improvement areas, and it should include 2 sales trainng article or link references based on the performance to improve it
+				also include motivational quotes to motivate them
+				Please keep the mail concise and sign it as 'Manager'
+				"""
+		elif df2.loc[0, 'Category'] == 'Non-performer to Performer':
+			query = """Your task is to write mail to salesman about their performance data delimited by three backticks,
+				analysing performance using their total sales, target and sales achieved percentages, give feedback based on performance as their performance recentley improved, suggesting improvement areas, and it should include 2 sales trainng article or link references based on the performance to further improve it
+				also include motivational quotes to motivate them
+				Please keep the mail concise and sign it as 'Manager'
+				"""
+		else:
+			query = 'show message : category is not correct'
+			
+		response = openai_response(query + f"""\ndata: ```{data} ``` """)
+		#st.markdown(response)
+		
+		#df2['Mail'] = response
+		#st.write(df2)
 		for row in dataframe_to_rows(df2, index=False, header=False):
     			sheet.append(row)
 	
