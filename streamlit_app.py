@@ -71,7 +71,8 @@ if st.button("generate"):
 					data: ```{data} ``` """)
 		#res = ast.literal_eval(response)#.replace('\n','\\n'))
 		df2['Mail'] = response
-		for row in dataframe_to_rows(df2, index=False, header=False):
-    			sheet.append(row)
+		st.write(df2)
+		#for row in dataframe_to_rows(df2, index=False, header=False):
+    		#	sheet.append(row)
 	
 	workbook.save('output.xlsx')
