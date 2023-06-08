@@ -71,6 +71,7 @@ if st.button("generate"):
 					data: ```{data} ``` """)
 		st.markdown(response)
 		st.markdown(response.dtype())
+		st.markdown(df2.dtype())
 		#res = ast.literal_eval(response)#.replace('\n','\\n'))
 		df2['Mail'] = response
 		st.write(df2)
