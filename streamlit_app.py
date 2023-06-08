@@ -60,7 +60,7 @@ st.header("Personalized communication ")
 
 
 if st.button("generate"):
-	for i in range(len(df)):
+	for i in range(1):#len(df)):
 		df2 = df.iloc[i]
 		data = df2.to_dict()
 		st.markdown(data)
@@ -69,6 +69,8 @@ if st.button("generate"):
 					Please keep the mail concise and sign it as 'Manager'
 					Provide output in mail only, do not embed input data
 					data: ```{data} ``` """)
+		st.markdown(response)
+		st.markdown(response.dtype())
 		#res = ast.literal_eval(response)#.replace('\n','\\n'))
 		df2['Mail'] = response
 		st.write(df2)
