@@ -70,7 +70,6 @@ if st.button("generate"):
 					Provide output in mail only, do not embed input data
 					data: ```{data} ``` """)
 		#res = ast.literal_eval(response)#.replace('\n','\\n'))
-		st.markdown(data)
 		df2['Mail'] = response
 		for row in dataframe_to_rows(df2, index=False, header=False):
     			sheet.append(row)
