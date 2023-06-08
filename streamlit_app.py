@@ -41,17 +41,7 @@ def openai_response(query):
 	)
 	return response.choices[0]['message']['content']  
 	
-def row_converter(row, listy):
-	#convert pandas row to a dictionary
-	#requires a list of columns and a row as a tuple
-	count = 1
-	pictionary = {}
-	pictionary['Index'] = row[0]
-	for item in listy:
-		pictionary[item] = row[count]
-		count += 1
-	print(pictionary)
-	return pictionary
+
 
 # to convert dictionary to '|' delimited csv
 def dicts_to_csv(list_of_dicts, filename):
@@ -75,8 +65,7 @@ if st.button("generate"):
 	response = openai_response(f"""Your task is to write mail about their performance data delimited by three backticks,
 				analysing performance, give feedback based on category, suggesting improvement areas, and it should include 2 sales trainng article or link references based on the performance and category
 				Please keep the mail concise and sign it as 'Manager'
-				Provide output in JSON format only  with following keys:
-				name, performance category,mail
+				Provide output in JSON format only  with mail as new column to given data
 				data: ```{data} ``` """)
 	#res = ast.literal_eval(response)#.replace('\n','\\n'))
 	st.markdown(response)
