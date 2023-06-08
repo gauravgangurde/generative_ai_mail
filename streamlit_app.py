@@ -16,12 +16,19 @@ openai.api_key = st.secrets["chat_gpt_key"]
 
 df = pd.read_csv('report.csv')
 
-with open("mails_data.csv", "rb") as file:
+
+for row in dataframe_to_rows(pd.read_csv('mails_data.csv', sep = '|'), index=False, header=False):
+    sheet.append(row)
+
+# Save the workbook
+workbook.save('output.xlsx')
+
+
+with open("output.xlsx", "rb") as file:
 	st.download_button(
 		label="Download data as CSV",
 		data=file,
-		file_name='large_df.csv',
-		mime='text/csv',
+		file_name='data.xlsx'
 	)
 def openai_response(query):
 	response = openai.ChatCompletion.create(
