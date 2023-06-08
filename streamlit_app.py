@@ -79,9 +79,9 @@ with st.form("my_form"):
 			dicts_to_csv(res[i], 'mails_data.csv')
 			st.dataframe(pd.read_csv('mails_data.csv', sep = '|'))
 			with open("mails_data.csv", "rb") as file:
-			st.download_button(
-				label="Download data as CSV",
-				data=file,
-				file_name='large_df.csv',
-				mime='text/csv',
-			)
+				st.download_button(
+					label="Download data as CSV",
+					data=file,
+					file_name='large_df.csv',
+					mime='text/csv',
+				)
