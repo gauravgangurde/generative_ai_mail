@@ -60,24 +60,18 @@ st.header("Personalized communication ")
 
 
 if st.button("generate"):
-	data = df.iloc[0].to_dict()
-	st.markdown(data)
-	response = openai_response(f"""Your task is to write mail about their performance data delimited by three backticks,
-				analysing performance, give feedback based on category, suggesting improvement areas, and it should include 2 sales trainng article or link references based on the performance and category
-				Please keep the mail concise and sign it as 'Manager'
-				Provide output in mail only, do not embed input data
-				data: ```{data} ``` """)
-	#res = ast.literal_eval(response)#.replace('\n','\\n'))
-	st.markdown(response)
+	for i in len(df):
+		data = df.iloc[i].to_dict()
+		st.markdown(data)
+		response = openai_response(f"""Your task is to write at least 250 word mail about their performance data delimited by three backticks,
+					analysing performance, give feedback based on category, suggesting improvement areas, and it should include 2 sales trainng article or link references based on the performance and category
+					Please keep the mail concise and sign it as 'Manager'
+					Provide output in mail only, do not embed input data
+					data: ```{data} ``` """)
+		#res = ast.literal_eval(response)#.replace('\n','\\n'))
+		st.markdown(response)
+		data['Mail'] = response
+		for row in dataframe_to_rows(data, index=False, header=False):
+    			sheet.append(row)
 	
-	#for i in res.keys():
-	#	df3 = (pd.DataFrame.from_dict(res[i]))
-	#	dicts_to_csv(res[i], 'mails_data.csv')
-	#	st.dataframe(pd.read_csv('mails_data.csv', sep = '|'))
-	#	#with open("mails_data.csv", "rb") as file:
-	#	#	st.download_button(
-	#	#		label="Download data as CSV",
-	#	#		data=file,
-	#	#		file_name='large_df.csv',
-	#	#		mime='text/csv',
-	#	#	)
+	workbook.save('output.xlsx')
