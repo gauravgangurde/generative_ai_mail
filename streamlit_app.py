@@ -56,7 +56,7 @@ st.header("Personalized communication ")
 
 with st.form("my_form"):
 	name = st.selectbox('Please select name',df['Category'])
-	df = df[df['Category] == name]
+	df = df[df['Category'] == name]
 	# Every form must have a submit button.
 	submitted = st.form_submit_button("Submit")
 	if submitted:
