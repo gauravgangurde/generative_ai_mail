@@ -17,13 +17,6 @@ openai.api_key = st.secrets["chat_gpt_key"]
 df = pd.read_csv('report.csv')
 
 
-
-with open("output.xlsx", "rb") as file:
-	st.download_button(
-		label="Download data as CSV",
-		data=file,
-		file_name='data.xlsx'
-	)
 def openai_response(query):
 	response = openai.ChatCompletion.create(
 	model="gpt-3.5-turbo",
@@ -72,4 +65,10 @@ if st.button("generate"):
 		for row in dataframe_to_rows(df2, index=False, header=False):
     			sheet.append(row)
 	
-	workbook.save('output.xlsx')
+	workbook.save('output1.xlsx')
+	with open("output1.xlsx", "rb") as file:
+		st.download_button(
+			label="Download data",
+			data=file,
+			file_name='data.xlsx'
+		)
