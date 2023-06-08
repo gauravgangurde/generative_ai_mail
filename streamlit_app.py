@@ -87,7 +87,7 @@ if st.button("generate"):
 		response = openai_response(query + f"""\ndata: ```{data} ``` """)
 		#st.markdown(response)
 		
-		#df2['Mail'] = response
+		df2['Mail'] = response
 		#st.write(df2)
 		for row in dataframe_to_rows(df2, index=False, header=False):
     			sheet.append(row)
