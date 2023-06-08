@@ -55,7 +55,7 @@ with st.sidebar:
 st.header("Personalized communication ")
 
 with st.form("my_form"):
-	name = st.selectbox('Please select name',df['performance'])
+	name = st.selectbox('Please select name',df['Category'])
 	
 	# Every form must have a submit button.
 	submitted = st.form_submit_button("Submit")
