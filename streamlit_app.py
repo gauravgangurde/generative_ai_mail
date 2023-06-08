@@ -56,7 +56,7 @@ st.header("Personalized communication ")
 
 with st.form("my_form"):
 	name = st.selectbox('Please select name',df['Category'])
-	
+	df = df[df['Category] == name]
 	# Every form must have a submit button.
 	submitted = st.form_submit_button("Submit")
 	if submitted:
@@ -65,7 +65,7 @@ with st.form("my_form"):
 		for row in df.itertuples():
 			data.append(row_converter(row, listy))
 		st.markdown(data)
-		response = openai_response(f"""Your task is to write mail to agents in {name} performance category about their performance data delimited by three backticks,
+		response = openai_response(f"""Your task is to write mail to salesperson in {name} performance category about their performance data delimited by three backticks,
 					generate new mail for each agent with keeping content of body similar,
 					giving feedback, suggesting improvment areas, and it should include 2 sales improvement article or training link references based on performance category
 					Please keep the mail concise and sign it as 'Manager'
@@ -75,7 +75,7 @@ with st.form("my_form"):
 		res = ast.literal_eval(response)#.replace('\n','\\n'))
 		
 		for i in res.keys():
-			df = (pd.DataFrame.from_dict(res[i]))
+			df3 = (pd.DataFrame.from_dict(res[i]))
 			dicts_to_csv(res[i], 'mails_data.csv')
 			st.dataframe(pd.read_csv('mails_data.csv', sep = '|'))
 			with open("mails_data.csv", "rb") as file:
