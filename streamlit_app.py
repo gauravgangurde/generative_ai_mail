@@ -79,14 +79,14 @@ with st.form("my_form"):
 		for row in df.itertuples():
 			data.append(row_converter(row, listy))
 		st.markdown(data)
-		response = openai_response(f"""Your task is to write mail to salesperson in {name} performance category about their performance data delimited by three backticks,
+		response = openai_response(f"""Your task is to write 300 word mail to salesperson in {name} performance category about their performance data delimited by three backticks,
 					generate new mail for each agent with keeping content of body similar,
 					giving feedback, suggesting improvment areas, and it should include 2 sales improvement article or training link references based on performance category
 					Please keep the mail concise and sign it as 'Manager'
 					Provide output in JSON format only with following keys:
 					name, performance category,mail
 					data: ```{data} ``` """)
-		res = ast.literal_eval(response.replace('\n','\\n'))
+		res = ast.literal_eval(response)#.replace('\n','\\n'))
 		
 		for i in res.keys():
 			df3 = (pd.DataFrame.from_dict(res[i]))
