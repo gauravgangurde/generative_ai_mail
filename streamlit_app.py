@@ -61,7 +61,8 @@ st.header("Personalized communication ")
 
 if st.button("generate"):
 	for i in len(df):
-		data = df.iloc[i].to_dict()
+		df2 = df.iloc[i]
+		data = df2.to_dict()
 		st.markdown(data)
 		response = openai_response(f"""Your task is to write at least 250 word mail about their performance data delimited by three backticks,
 					analysing performance, give feedback based on category, suggesting improvement areas, and it should include 2 sales trainng article or link references based on the performance and category
@@ -69,8 +70,8 @@ if st.button("generate"):
 					Provide output in mail only, do not embed input data
 					data: ```{data} ``` """)
 		#res = ast.literal_eval(response)#.replace('\n','\\n'))
-		st.markdown(response)
-		data['Mail'] = response
+		st.markdown(data)
+		df2['Mail'] = response
 		for row in dataframe_to_rows(data, index=False, header=False):
     			sheet.append(row)
 	
