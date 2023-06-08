@@ -5,13 +5,16 @@ from PIL import Image
 import openai
 import ast
 import csv
+from openpyxl import Workbook
+from openpyxl.utils.dataframe import dataframe_to_rows
 
 image = Image.open('exl.png')
-
+workbook = Workbook()
+sheet = workbook.active
 
 openai.api_key = st.secrets["chat_gpt_key"]
 
-df = pd.read_csv('performance.csv')
+df = pd.read_csv('report.csv')
 
 def openai_response(query):
 	response = openai.ChatCompletion.create(
@@ -75,3 +78,10 @@ with st.form("my_form"):
 			df = (pd.DataFrame.from_dict(res[i]))
 			dicts_to_csv(res[i], 'mails_data.csv')
 			st.dataframe(pd.read_csv('mails_data.csv', sep = '|'))
+			with open("mails_data.csv", "rb") as file:
+			st.download_button(
+				label="Download data as CSV",
+				data=file,
+				file_name='large_df.csv',
+				mime='text/csv',
+			)
