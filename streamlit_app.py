@@ -64,14 +64,16 @@ if st.button("generate"):
 		df2 = df.iloc[i]
 		data = df2.to_dict()
 		st.markdown(data)
+		st.markdown(df2)
+		st.markdown(df2.dtype)
 		response = openai_response(f"""Your task is to write at least 250 word mail about their performance data delimited by three backticks,
 					analysing performance, give feedback based on category, suggesting improvement areas, and it should include 2 sales trainng article or link references based on the performance and category
 					Please keep the mail concise and sign it as 'Manager'
 					Provide output in mail only, do not embed input data
 					data: ```{data} ``` """)
 		st.markdown(response)
-		st.markdown(response.dtype())
-		st.markdown(df2.dtype())
+		st.markdown(response.dtype)
+		
 		#res = ast.literal_eval(response)#.replace('\n','\\n'))
 		df2['Mail'] = response
 		st.write(df2)
