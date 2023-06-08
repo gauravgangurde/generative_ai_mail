@@ -16,6 +16,13 @@ openai.api_key = st.secrets["chat_gpt_key"]
 
 df = pd.read_csv('report.csv')
 
+with open("mails_data.csv", "rb") as file:
+	st.download_button(
+		label="Download data as CSV",
+		data=file,
+		file_name='large_df.csv',
+		mime='text/csv',
+	)
 def openai_response(query):
 	response = openai.ChatCompletion.create(
 	model="gpt-3.5-turbo",
@@ -72,7 +79,7 @@ with st.form("my_form"):
 					Provide output in JSON format only with following keys:
 					name, performance category,mail
 					data: ```{data} ``` """)
-		res = ast.literal_eval(response)#.replace('\n','\\n'))
+		res = ast.literal_eval(response.replace('\n','\\n'))
 		
 		for i in res.keys():
 			df3 = (pd.DataFrame.from_dict(res[i]))
