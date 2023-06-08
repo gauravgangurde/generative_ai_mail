@@ -65,7 +65,7 @@ if st.button("generate"):
 	response = openai_response(f"""Your task is to write mail about their performance data delimited by three backticks,
 				analysing performance, give feedback based on category, suggesting improvement areas, and it should include 2 sales trainng article or link references based on the performance and category
 				Please keep the mail concise and sign it as 'Manager'
-				Provide output in mail only
+				Provide output in mail only, do not embed input data
 				data: ```{data} ``` """)
 	#res = ast.literal_eval(response)#.replace('\n','\\n'))
 	st.markdown(response)
