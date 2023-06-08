@@ -61,7 +61,7 @@ st.header("Personalized communication ")
 
 if st.button("generate"):
 	for i in range(1):#len(df)):
-		df2 = df.iloc[i]
+		df2 = df.iloc[[i]]
 		data = df2.to_dict()
 		st.markdown(data)
 		st.markdown(df2)
@@ -72,7 +72,6 @@ if st.button("generate"):
 					Provide output in mail only, do not embed input data
 					data: ```{data} ``` """)
 		st.markdown(response)
-		st.markdown(response.dtype)
 		
 		#res = ast.literal_eval(response)#.replace('\n','\\n'))
 		df2['Mail'] = response
