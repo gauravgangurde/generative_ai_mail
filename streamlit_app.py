@@ -68,34 +68,27 @@ with st.sidebar:
 
 st.header("Personalized communication ")
 
-with st.form("my_form"):
-	name = st.selectbox('Please select name',df['Category'])
-	df = df[df['Category'] == name]
-	# Every form must have a submit button.
-	submitted = st.form_submit_button("Submit")
-	if submitted:
-		data = []
-		listy = df.columns
-		for row in df.itertuples():
-			data.append(row_converter(row, listy))
-		st.markdown(data)
-		response = openai_response(f"""Your task is to write 300 word mail to salesperson in {name} performance category about their performance data delimited by three backticks,
-					generate new mail for each agent with keeping content of body similar,
-					giving feedback, suggesting improvment areas, and it should include 2 sales improvement article or training link references based on performance category
-					Please keep the mail concise and sign it as 'Manager'
-					Provide output in JSON format only and must be readable by python without error with following keys:
-					name, performance category,mail
-					data: ```{data} ``` """)
-		res = ast.literal_eval(response)#.replace('\n','\\n'))
-		
-		for i in res.keys():
-			df3 = (pd.DataFrame.from_dict(res[i]))
-			dicts_to_csv(res[i], 'mails_data.csv')
-			st.dataframe(pd.read_csv('mails_data.csv', sep = '|'))
-			#with open("mails_data.csv", "rb") as file:
-			#	st.download_button(
-			#		label="Download data as CSV",
-			#		data=file,
-			#		file_name='large_df.csv',
-			#		mime='text/csv',
-			#	)
+
+if st.button("generate"):
+	data = df.iloc[0].to_dict()
+	st.markdown(data)
+	response = openai_response(f"""Your task is to write mail about their performance data delimited by three backticks,
+				analysing performance, give feedback based on category, suggesting improvement areas, and it should include 2 sales trainng article or link references based on the performance and category
+				Please keep the mail concise and sign it as 'Manager'
+				Provide output in JSON format only and must be readable by python without error with following keys:
+				name, performance category,mail
+				data: ```{data} ``` """)
+	#res = ast.literal_eval(response)#.replace('\n','\\n'))
+	st.markdown(response)
+	
+	#for i in res.keys():
+	#	df3 = (pd.DataFrame.from_dict(res[i]))
+	#	dicts_to_csv(res[i], 'mails_data.csv')
+	#	st.dataframe(pd.read_csv('mails_data.csv', sep = '|'))
+	#	#with open("mails_data.csv", "rb") as file:
+	#	#	st.download_button(
+	#	#		label="Download data as CSV",
+	#	#		data=file,
+	#	#		file_name='large_df.csv',
+	#	#		mime='text/csv',
+	#	#	)
