@@ -83,7 +83,7 @@ with st.form("my_form"):
 					generate new mail for each agent with keeping content of body similar,
 					giving feedback, suggesting improvment areas, and it should include 2 sales improvement article or training link references based on performance category
 					Please keep the mail concise and sign it as 'Manager'
-					Provide output in JSON format only with following keys:
+					Provide output in JSON format only and must be readable by python without error with following keys:
 					name, performance category,mail
 					data: ```{data} ``` """)
 		res = ast.literal_eval(response)#.replace('\n','\\n'))
