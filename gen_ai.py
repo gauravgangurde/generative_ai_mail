@@ -47,7 +47,7 @@ st.header("Personalized communication ")
 
 
 if st.button("generate"):
-	for i in range(len(df)):
+	for i in range(len(6):#df)):
 		df2 = df.iloc[[i]]
 		data = df2.to_dict()
 		#st.markdown(data)
